@@ -10,6 +10,7 @@ gem 'puma', '~> 3.11'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise_token_auth'
+gem 'google-api-client'
 
 group :development, :test do
   gem 'pry'
