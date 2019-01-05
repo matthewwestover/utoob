@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import YouTube from 'react-youtube'
 import {Segment, Divider, Header, Image,} from "semantic-ui-react";
 
 
@@ -18,13 +17,6 @@ class Video extends React.Component {
 
   render() {
     const { video, comments, } = this.state;
-    const opts = {
-      height: '390',
-      width: '640',
-      playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 1
-      }
-
     return(
       <div>
         <Segment centered raised clearing>
