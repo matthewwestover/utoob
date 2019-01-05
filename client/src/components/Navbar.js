@@ -1,6 +1,6 @@
 import React from 'react';
 import { AuthConsumer } from '../providers/AuthProvider';
-import { Menu, Button, Icon } from 'semantic-ui-react';
+import { Menu, Button, Icon, Image } from 'semantic-ui-react';
 import { Link, withRouter, } from 'react-router-dom';
 
 class Navbar extends React.Component {
@@ -18,13 +18,13 @@ class Navbar extends React.Component {
               name='New Post'
             ><Button color="green" style={{marginBottom: "5px"}}><Icon name="plus" />New Post</Button>
           </Menu.Item>  */}
-          {/* <Menu.Item 
+          <Menu.Item 
             as={Link}
             to='/profile'
             id='profile'
             name="Profile"
             active={location.pathname === '/profile'}
-          ><Icon name="user circle" /> Profile</Menu.Item> */}
+          ><Icon name="user circle" /> Profile</Menu.Item>
           <Menu.Item 
             name="Logout"
             onClick={ () => handleLogout(history) }
@@ -66,13 +66,6 @@ class Navbar extends React.Component {
             name="Users"
             active={location.pathname === '/videos'}
           ><Icon name="video" /> Videos </Menu.Item>
-          {/* <Menu.Item 
-            as={Link}
-            to='/postfeed'
-            id='postfeed'
-            name="All Posts"
-            active={location.pathname === '/postfeed'}
-          ><Icon name='feed' /> Feed </Menu.Item> */}
         </Menu.Menu>
       )
     } else {
@@ -85,7 +78,7 @@ class Navbar extends React.Component {
   render() {
     return (
       <div>
-        <Menu pointing secondary inverted color="blue" icon="labeled">
+        <Menu pointing secondary inverted color="red" icon="labeled">
           <Menu.Item 
             as={Link}
             to='/'

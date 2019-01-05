@@ -1,10 +1,14 @@
 class Api::VideosController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, except: [:index]
-  before_action :set_video, only: :destroy
+  before_action :set_user, except: [:index, :show]
+  before_action :set_video, only: [:destroy, :show]
 
   def index
     render json: Video.all.order(created_at: :desc)
+  end
+
+  def show
+    render json: @video
   end
 
   def my_videos
@@ -34,7 +38,7 @@ class Api::VideosController < ApplicationController
   end
 
   def set_video
-    @video = @user.videos.find(params[:id])
+    @video = Video.find(params[:id])
   end
 
   def video_params
