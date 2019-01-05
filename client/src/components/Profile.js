@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { AuthConsumer, } from '../providers/AuthProvider';
-import {Segment, Image, Divider, Header, Button} from "semantic-ui-react";
+import {Segment, Image, Divider, Header, Button, Icon} from "semantic-ui-react";
 
 class Profile extends React.Component {
   state = { comments: [], }
@@ -25,6 +25,10 @@ class Profile extends React.Component {
         })
   }
 
+  viewEdit = (id) => {
+    this.props.history.push(`/profile/${this.props.auth.user.id}/comment/${id}`)
+  }
+
   render() {
     const { auth: {user, }} = this.props
     const { comments } = this.state;
@@ -38,7 +42,10 @@ class Profile extends React.Component {
         { comments.map( comment =>
           <Segment raised color="blue ">
             <Header floated="right">
-            <Button color="red" onClick={() => this.removeComment(comment.id)}>Delete</Button>
+            <Button color="red" onClick={() => this.removeComment(comment.id)} ><Icon name="trash" /> Delete</Button>
+            <Button color="blue"
+            onClick={() => this.viewEdit(comment.id)}
+            ><Icon name="edit" /> Edit</Button>
             </Header>
             <Header.Subheader style={{ paddingTop: "10px" }}>By:{' '}{comment.user_name}</Header.Subheader>
             <Divider />

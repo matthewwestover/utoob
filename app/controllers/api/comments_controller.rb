@@ -1,8 +1,8 @@
 class Api::CommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_video, only: [:video, :create]
+  before_action :set_video, only: [:video, :create, :update]
   before_action :set_user, except: [:video, :create]
-  before_action :set_comment, only: [:destroy]
+  before_action :set_comment, only: [:destroy, :show, :update]
 
 
   def index
@@ -14,6 +14,7 @@ class Api::CommentsController < ApplicationController
   end
 
   def show
+    render json: @comment
   end
 
   def create
@@ -26,6 +27,11 @@ class Api::CommentsController < ApplicationController
   end
 
   def update
+    if @comment.update(comment_params)
+      render json: @comment
+    else
+      render json: @comment.errors
+    end
   end
 
   def destroy

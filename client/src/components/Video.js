@@ -1,8 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import YouTube from 'react-youtube';
-import {Segment, Divider, Header, Image, Button, Icon, } from "semantic-ui-react";
+import {Segment, Divider, Header, Button, Icon, } from "semantic-ui-react";
 import {Link} from 'react-router-dom';
+import { AuthConsumer, } from '../providers/AuthProvider';
 
 class Video extends React.Component {
   state = { video: [], comments: [], }
@@ -15,6 +16,45 @@ class Video extends React.Component {
     axios.get(`/api/videos/${this.props.match.params.id}/comments`)
       .then( res => this.setState({ comments: res.data, }))
   }
+
+  removeComment = (id) => {
+    const remove = window.confirm("Are you sure you want to delete this comment?")
+    if (remove)
+      axios.delete(`/api/users/${this.props.auth.user.id}/comments/${id}`)
+        .then( res => {
+          const comments = this.state.comments.filter( c => {
+            if (c.id !== id)
+              return c;
+          })
+          this.setState({ comments, })
+        })
+  }
+
+  viewEdit = (id) => {
+    this.props.history.push(`/profile/${this.props.auth.user.id}/comment/${id}`)
+  }
+
+  renderButtons = (id) => (
+    <div>
+    <Button 
+    color="red" 
+    icon 
+    floated="right"
+    onClick={() => this.removeComment(id)}
+    id='delete'
+    name='Delete Comment'
+    ><Icon name="trash" />Delete</Button>
+    <Button 
+    color="blue" 
+    icon 
+    floated="right"
+    onClick={() => this.viewEdit(id)}
+    id='editcomment'
+    name='Edit Comment'
+    ><Icon name="edit" />Edit</Button>
+    </div>
+  )
+
 
   render() {
     const { video, comments, } = this.state;
@@ -36,7 +76,6 @@ class Video extends React.Component {
           onReady={this.onReady}
           />
         </Segment>
-          <Image src={video.trailer} centered />
           <Button 
           color="green" 
           icon 
@@ -55,7 +94,8 @@ class Video extends React.Component {
         </Segment>
         { comments.map( comment =>
           <Segment raised color="blue ">
-            <Header.Subheader>By:{comment.user_name}</Header.Subheader>
+          { this.props.auth.user.id === comment.user_id ? this.renderButtons(comment.id) : null}
+          <Header.Subheader>By:{comment.user_name}</Header.Subheader>
             <Divider />
             {comment.body}
           </Segment>
@@ -68,4 +108,12 @@ class Video extends React.Component {
   }
 }
 
-export default Video;
+export default class ConnectedVideo extends React.Component {
+  render(){
+    return(
+      <AuthConsumer>
+        { auth => <Video {...this.props} auth={auth} /> }
+      </AuthConsumer>
+    )
+  }
+}

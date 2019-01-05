@@ -20,7 +20,7 @@ class Videos extends React.Component {
     const { videos } = this.state;
     return(
       <div>
-        <Card.Group centered itemsPerRow={3} centered>
+        <Card.Group centered itemsPerRow={3}>
           { videos.map( video =>
             <Card key={video.id} raised>
               <Card.Content textAlign="center">
