@@ -9,6 +9,7 @@
   user.save!
 
   5.times do
+      word = "word",
       title = Faker::Lorem.word,
       description = Faker::Lorem.paragraph,
       duration = "10 minutes",
@@ -17,14 +18,15 @@
       video = user.videos.create(title: title, description: description, duration: duration, genre: genre, trailer: trailer)
 
       5.times do
-          title = Faker::Lorem.word,
-          body = Faker::Lorem.paragraph,
-          user_name = user.user_name
-          user_id = video.user_id
-          comment = video.comments.create(title: title, body: body, user_name: user_name, user_id: user_id)
-      end
+        ctitle = "Title",
+        body = Faker::Lorem.paragraph,
+        user_name = user.user_name,
+        user_id = video.user_id,
+        comment = video.comments.create(ctitle: ctitle, body: body, user_name: user_name, user_id: user_id)
+    end
+
   end
 
   end
   
-  puts "10 Users Created"
+  puts "4 Users Created"

@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import {Segment, Divider, Header, Image,} from "semantic-ui-react";
+import {Segment, Divider, Header, Image, Button, Icon, } from "semantic-ui-react";
+import {Link} from 'react-router-dom';
 
 
 class Video extends React.Component {
@@ -11,8 +12,8 @@ class Video extends React.Component {
     .then( res => {
       this.setState({ video: res.data, })
     })
-    // axios.get(`/api/users/${this.props.match.params.id}/my_posts`)
-    //   .then( res => this.setState({ posts: res.data, }))
+    axios.get(`/api/videos/${this.props.match.params.id}/comments`)
+      .then( res => this.setState({ comments: res.data, }))
   }
 
   render() {
@@ -21,6 +22,16 @@ class Video extends React.Component {
       <div>
         <Segment centered raised clearing>
           <Image src={video.trailer} centered />
+          <Button 
+          color="green" 
+          icon 
+          floated="right"
+          as={Link}
+          as={Link}
+          to='/video/:id/comment'
+          id='newcomment'
+          name='New Commit'
+          ><Icon name="add" />Add Comment</Button>
           <Header>{video.title}</Header>
           Duration: {video.duration}
           <br />
@@ -28,16 +39,13 @@ class Video extends React.Component {
           <br />
           {video.description}
         </Segment>
-        {/* { posts.map( post =>
+        { comments.map( comment =>
           <Segment raised color="blue ">
-            <Header floated="right">
-            </Header>
-            <Header>{post.title}</Header>
-            <Header.Subheader>By:{' '}{post.first_name}{' '}{post.last_name}</Header.Subheader>
+            <Header.Subheader>By:{comment.user_name}</Header.Subheader>
             <Divider />
-            {post.body}
+            {comment.body}
           </Segment>
-        )}  */}
+        )} 
       </div>
     )
   }
