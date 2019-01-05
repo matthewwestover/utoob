@@ -27,10 +27,9 @@ class Video extends React.Component {
           icon 
           floated="right"
           as={Link}
-          as={Link}
-          to='/video/:id/comment'
+          to={`/videos/${this.props.match.params.id}/comment`}
           id='newcomment'
-          name='New Commit'
+          name='New Comment'
           ><Icon name="add" />Add Comment</Button>
           <Header>{video.title}</Header>
           Duration: {video.duration}
