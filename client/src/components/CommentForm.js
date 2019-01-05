@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Form, TextArea, } from "semantic-ui-react"
+import { Form, TextArea, Header } from "semantic-ui-react"
 import { AuthConsumer } from '../providers/AuthProvider';
 
 class CommentForm extends React.Component {
@@ -29,9 +29,27 @@ class CommentForm extends React.Component {
   }
 
   render() {
+    const { body } = this.state;
     return(
-      <div>CommentForm</div>
-    )
+        <div>
+          <Header as ="h2">New Comment</Header>
+          <Form onSubmit={this.handleSubmit}>
+          <Form.Input 
+            name="body"
+            as={TextArea}
+            placeholder="Post Body"
+            required
+            value={body}
+            onChange={this.handleChange}
+          />
+          <br />
+          <br />
+          <Form.Button color="green">
+          Submit
+          </Form.Button>
+          </Form>
+        </div>
+      )
   }
 }
 

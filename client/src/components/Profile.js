@@ -4,30 +4,30 @@ import { AuthConsumer, } from '../providers/AuthProvider';
 import {Segment, Image, Divider, Header, Button} from "semantic-ui-react";
 
 class Profile extends React.Component {
-  // state = { posts: [], }
+  state = { comments: [], }
 
-  // componentDidMount() {
-  //   const { auth: {user, }} = this.props
-  //   axios.get(`/api/users/${user.id}/my_posts`)
-  //     .then( res => this.setState({ posts: res.data, }))
-  // }
+  componentDidMount() {
+    const { auth: {user, }} = this.props
+    axios.get(`/api/users/${user.id}/comments`)
+      .then( res => this.setState({ comments: res.data, }))
+  }
 
-  // removePost = (id) => {
-  //   const remove = window.confirm("Are you sure you want to delete this post?")
-  //   if (remove)
-  //     axios.delete(`/api/users/${this.props.auth.user.id}/posts/${id}`)
-  //       .then( res => {
-  //         const posts = this.state.posts.filter( p => {
-  //           if (p.id !== id)
-  //             return p;
-  //         })
-  //         this.setState({ posts, })
-  //       })
-  // }
+  removeComment = (id) => {
+    const remove = window.confirm("Are you sure you want to delete this comment?")
+    if (remove)
+      axios.delete(`/api/users/${this.props.auth.user.id}/comments/${id}`)
+        .then( res => {
+          const comments = this.state.comments.filter( c => {
+            if (c.id !== id)
+              return c;
+          })
+          this.setState({ comments, })
+        })
+  }
 
   render() {
     const { auth: {user, }} = this.props
-    // const { posts } = this.state;
+    const { comments } = this.state;
     return(
       <div>
         <Segment centered raised clearing>
@@ -35,17 +35,16 @@ class Profile extends React.Component {
           <Header>{user.user_name}</Header>
           {user.email}
         </Segment>
-        {/* { posts.map( post =>
+        { comments.map( comment =>
           <Segment raised color="blue ">
             <Header floated="right">
-            <Button color="red" onClick={() => this.removePost(post.id)}>Delete</Button>
+            <Button color="red" onClick={() => this.removeComment(comment.id)}>Delete</Button>
             </Header>
-            <Header>{post.title}</Header>
-            <Header.Subheader>By:{' '}{post.first_name}{' '}{post.last_name}</Header.Subheader>
+            <Header.Subheader style={{ paddingTop: "10px" }}>By:{' '}{comment.user_name}</Header.Subheader>
             <Divider />
-            {post.body}
+            {comment.body}
           </Segment>
-        )} */}
+        )}
       </div>
     )
   }

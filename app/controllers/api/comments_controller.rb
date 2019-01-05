@@ -1,6 +1,12 @@
 class Api::CommentsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_video, only: [:video, :create]
+  before_action :set_user, except: [:video, :create]
+  before_action :set_comment, only: [:destroy]
+
+
   def index
+    render json: @user.comments.order(created_at: :desc)
   end
 
   def video
@@ -23,11 +29,20 @@ class Api::CommentsController < ApplicationController
   end
 
   def destroy
+    @comment.destroy
   end
 
   private
     def set_video
       @video = Video.find(params[:video_id])
+    end
+
+    def set_user
+      @user = User.find(params[:user_id])
+    end
+
+    def set_comment
+      @comment = @user.comments.find(params[:id])
     end
 
     def comment_params

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     end
     resources :users, only: [:show] do
       resources :videos, only: [:create, :destroy]
-      get 'my_videos', to: 'videos#my_videos'
+      resources :comments, only: [:index, :destroy]
     end
   end
 end
